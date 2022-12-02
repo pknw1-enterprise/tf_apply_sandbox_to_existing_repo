@@ -1,0 +1,46 @@
+name: 'Manual Run TFSEc'
+
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_branch:
+        default: "main"
+        type: string
+env:
+  ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+  ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+  RAW_ARTIFACT_NAME: "${{ github.repoaitory }}-${{ github.ref }}-${{ inputs.folder}}-${{inputs.artifact_name}}"
+
+jobs:
+  tfsec:
+    name: tfsec
+    runs-on: ubuntu-latest
+    container:
+      image: tfsec/tfsec:latest
+      options: --user root
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          branch: ${{ inputs.terraform_branch }}
+      - run: |
+          tfsec --soft-fail --out=/tfsec.sarif --format=sarif --force-all-dirs
+        shell: sh
+      - run: | 
+          cd /
+          ls -lrth
+      - uses: actions/upload-artifact@v3
+        with:
+          name: tfsec.sarif
+          path: /tfsec.sarif
+      - run: |
+          cat <<EOF > $GITHUB_STEP_SUMMARY
+          ## TFSec Summary
+          [tfsec @Aqua](https://aquasecurity.github.io/tfsec/v1.28.1/)
+          ---
+          author: Paul Kelleher, EIT-DevOps
+          created: 28/11/2022
+          EOF
+        shell: sh

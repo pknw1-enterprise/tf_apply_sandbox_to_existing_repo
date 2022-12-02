@@ -1,0 +1,705 @@
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.sandbox.github_branch.ninja422["rover_workflow"] will be created
+  + resource "github_branch" "ninja422" {
+      + branch        = "rover_workflow-installation"
+      + etag          = (known after apply)
+      + id            = (known after apply)
+      + ref           = (known after apply)
+      + repository    = "tf_target"
+      + sha           = (known after apply)
+      + source_branch = "main"
+      + source_sha    = (known after apply)
+    }
+
+  # module.sandbox.github_branch.ninja422["sandbox_workflow"] will be created
+  + resource "github_branch" "ninja422" {
+      + branch        = "sandbox_workflow-installation"
+      + etag          = (known after apply)
+      + id            = (known after apply)
+      + ref           = (known after apply)
+      + repository    = "tf_target"
+      + sha           = (known after apply)
+      + source_branch = "main"
+      + source_sha    = (known after apply)
+    }
+
+  # module.sandbox.github_branch.ninja422["tfsec_workflow"] will be created
+  + resource "github_branch" "ninja422" {
+      + branch        = "tfsec_workflow-installation"
+      + etag          = (known after apply)
+      + id            = (known after apply)
+      + ref           = (known after apply)
+      + repository    = "tf_target"
+      + sha           = (known after apply)
+      + source_branch = "main"
+      + source_sha    = (known after apply)
+    }
+
+  # module.sandbox.github_branch.ninja422i will be created
+  + resource "github_branch" "ninja422i" {
+      + branch        = "integrate_workflows_into_main_repository"
+      + etag          = (known after apply)
+      + id            = (known after apply)
+      + ref           = (known after apply)
+      + repository    = "tf_target"
+      + sha           = (known after apply)
+      + source_branch = "main"
+      + source_sha    = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422["rover_workflow"] will be created
+  + resource "github_repository_file" "ninja422" {
+      + branch              = "rover_workflow-installation"
+      + commit_author       = "as"
+      + commit_email        = "s"
+      + commit_message      = "as"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + file                = ".github/workflows/rover_workflow.yml"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422["sandbox_workflow"] will be created
+  + resource "github_repository_file" "ninja422" {
+      + branch              = "sandbox_workflow-installation"
+      + commit_author       = "as"
+      + commit_email        = "s"
+      + commit_message      = "as"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + file                = ".github/workflows/sandbox_workflow.yml"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422["tfsec_workflow"] will be created
+  + resource "github_repository_file" "ninja422" {
+      + branch              = "tfsec_workflow-installation"
+      + commit_author       = "as"
+      + commit_email        = "s"
+      + commit_message      = "as"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + file                = ".github/workflows/tfsec_workflow.yml"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422readme["rover_workflow"] will be created
+  + resource "github_repository_file" "ninja422readme" {
+      + branch              = "rover_workflow-installation"
+      + commit_author       = "Terraform User"
+      + commit_email        = "terraform@example.com"
+      + commit_message      = "Managed by Terraform"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            ## Summary
+      
+        EOT
+      + file                = ".github/workflows/rover_workflow_readme.md"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422readme["sandbox_workflow"] will be created
+  + resource "github_repository_file" "ninja422readme" {
+      + branch              = "sandbox_workflow-installation"
+      + commit_author       = "Terraform User"
+      + commit_email        = "terraform@example.com"
+      + commit_message      = "Managed by Terraform"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            ## Summary
+   
+        EOT
+      + file                = ".github/workflows/sandbox_workflow_readme.md"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.ninja422readme["tfsec_workflow"] will be created
+  + resource "github_repository_file" "ninja422readme" {
+      + branch              = "tfsec_workflow-installation"
+      + commit_author       = "Terraform User"
+      + commit_email        = "terraform@example.com"
+      + commit_message      = "Managed by Terraform"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+            ## Summary
+    
+        EOT
+      + file                = ".github/workflows/tfsec_workflow_readme.md"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_file.super will be created
+  + resource "github_repository_file" "super" {
+      + branch              = "integrate_workflows_into_main_repository"
+      + commit_author       = "Terraform User"
+      + commit_email        = "terraform@example.com"
+      + commit_message      = "Managed by Terraform"
+      + commit_sha          = (known after apply)
+      + content             = <<-EOT
+              installed workflows
+        EOT
+      + file                = "workflow-updates.md"
+      + id                  = (known after apply)
+      + overwrite_on_create = true
+      + repository          = "tf_target"
+      + sha                 = (known after apply)
+    }
+
+  # module.sandbox.github_repository_pull_request.ninja422["rover_workflow"] will be created
+  + resource "github_repository_pull_request" "ninja422" {
+      + base_ref              = (known after apply)
+      + base_repository       = "tf_target"
+      + base_sha              = (known after apply)
+      + body                  = <<-EOT
+            ## Summary
+
+        EOT
+      + draft                 = (known after apply)
+      + head_ref              = (known after apply)
+      + head_sha              = (known after apply)
+      + id                    = (known after apply)
+      + labels                = (known after apply)
+      + maintainer_can_modify = false
+      + number                = (known after apply)
+      + opened_at             = (known after apply)
+      + opened_by             = (known after apply)
+      + state                 = (known after apply)
+      + title                 = "rover_workflow installation"
+      + updated_at            = (known after apply)
+    }
+
+  # module.sandbox.github_repository_pull_request.ninja422["sandbox_workflow"] will be created
+  + resource "github_repository_pull_request" "ninja422" {
+      + base_ref              = (known after apply)
+      + base_repository       = "tf_target"
+      + base_sha              = (known after apply)
+      + body                  = <<-EOT
+  
+        EOT
+      + draft                 = (known after apply)
+      + head_ref              = (known after apply)
+      + head_sha              = (known after apply)
+      + id                    = (known after apply)
+      + labels                = (known after apply)
+      + maintainer_can_modify = false
+      + number                = (known after apply)
+      + opened_at             = (known after apply)
+      + opened_by             = (known after apply)
+      + state                 = (known after apply)
+      + title                 = "sandbox_workflow installation"
+      + updated_at            = (known after apply)
+    }
+
+  # module.sandbox.github_repository_pull_request.ninja422["tfsec_workflow"] will be created
+  + resource "github_repository_pull_request" "ninja422" {
+      + base_ref              = (known after apply)
+      + base_repository       = "tf_target"
+      + base_sha              = (known after apply)
+      + body                  = <<-EOT
+            ## Summary
+  
+        EOT
+      + draft                 = (known after apply)
+      + head_ref              = (known after apply)
+      + head_sha              = (known after apply)
+      + id                    = (known after apply)
+      + labels                = (known after apply)
+      + maintainer_can_modify = false
+      + number                = (known after apply)
+      + opened_at             = (known after apply)
+      + opened_by             = (known after apply)
+      + state                 = (known after apply)
+      + title                 = "tfsec_workflow installation"
+      + updated_at            = (known after apply)
+    }
+
+  # module.sandbox.github_repository_pull_request.ninja422i will be created
+  + resource "github_repository_pull_request" "ninja422i" {
+      + base_ref              = "main"
+      + base_repository       = "tf_target"
+      + base_sha              = (known after apply)
+      + body                  = <<-EOT
+              ## PR Commit
+        EOT
+      + draft                 = (known after apply)
+      + head_ref              = (known after apply)
+      + head_sha              = (known after apply)
+      + id                    = (known after apply)
+      + labels                = (known after apply)
+      + maintainer_can_modify = false
+      + number                = (known after apply)
+      + opened_at             = (known after apply)
+      + opened_by             = (known after apply)
+      + state                 = (known after apply)
+      + title                 = "Merge Approved Workfloews"
+      + updated_at            = (known after apply)
+    }
+
+  # module.sandbox.local_file.terraform_sandbox will be created
+  + resource "local_file" "terraform_sandbox" {
+      + content              = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/terraform_sandbox.yml"
+      + id                   = (known after apply)
+    }
+
+  # module.sandbox.local_file.terraform_sandbox_readme will be created
+  + resource "local_file" "terraform_sandbox_readme" {
+      + content              = <<-EOT
+  
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/terraform_sandbox_readme.md"
+      + id                   = (known after apply)
+    }
+
+  # module.sandbox.local_file.workflow_rover will be created
+  + resource "local_file" "workflow_rover" {
+      + content              = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/terraform_sandbox.yml"
+      + id                   = (known after apply)
+    }
+
+  # module.sandbox.local_file.workflow_rover_readme will be created
+  + resource "local_file" "workflow_rover_readme" {
+      + content              = <<-EOT
+ 
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/rover_readme.md"
+      + id                   = (known after apply)
+    }
+
+  # module.sandbox.local_file.workflow_tfsec will be created
+  + resource "local_file" "workflow_tfsec" {
+      + content              = <<-EOT
+            
+            name: 'Manual Control of Terraform Local Deployments'
+            
+            on:
+              workflow_dispatch:
+                inputs:
+                  terraform_folder:
+                    required: true
+                    type: string
+                  terraform_branch:
+                    required: true
+                    default: "main"
+                    type: string
+                  validate:
+                    required: false
+                    default: true
+                    type: boolean      
+                  plan:
+                    required: false
+                    default: true
+                    type: boolean
+                  apply:
+                    required: false
+                    default: false
+                    type: boolean
+                  destroy: 
+                    required: false
+                    default: false
+                    type: boolean
+                  status: 
+                    required: false
+                    default: false
+                    type: boolean
+            
+                  deployment_identifier:
+                    required: true
+                    type: string
+            
+            env:
+              ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+              ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+              ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+              ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+              TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+            
+            jobs:
+              terraform:
+                runs-on: ubuntu-latest
+                steps:
+                  - name: terradform-run
+                    uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+                    with:
+                      folder: ${{ inputs.terraform_folder }}
+                      branch_name: ${{ inputs.terraform_branch }}
+                      deployment_identifier: ${{ inputs.deployment_identifier }}
+                      encryptionkey: ${{ secrets.encryptionkey }}
+                      validate: ${{ inputs.validate }}
+                      plan: ${{ inputs.plan }}
+                      apply: ${{ inputs.apply }}
+                      status: ${{ inputs.status }}
+                      destroy: ${{ inputs.destroy }}
+                      custom_plan_flags: '' 
+                      custom_apply_flags: ''
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/workflow_tfsec.yml"
+      + id                   = (known after apply)
+    }
+
+  # module.sandbox.local_file.workflow_tfsec_readme will be created
+  + resource "local_file" "workflow_tfsec_readme" {
+      + content              = <<-EOT
+
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../src/generated_files/tfsec_readme.md"
+      + id                   = (known after apply)
+    }
+
+Plan: 21 to add, 0 to change, 0 to destroy.

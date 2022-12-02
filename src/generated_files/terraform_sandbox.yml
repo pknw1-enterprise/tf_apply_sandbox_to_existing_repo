@@ -1,0 +1,63 @@
+
+name: 'Manual Control of Terraform Local Deployments'
+
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_folder:
+        required: true
+        type: string
+      terraform_branch:
+        required: true
+        default: "main"
+        type: string
+      validate:
+        required: false
+        default: true
+        type: boolean      
+      plan:
+        required: false
+        default: true
+        type: boolean
+      apply:
+        required: false
+        default: false
+        type: boolean
+      destroy: 
+        required: false
+        default: false
+        type: boolean
+      status: 
+        required: false
+        default: false
+        type: boolean
+
+      deployment_identifier:
+        required: true
+        type: string
+
+env:
+  ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+  ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+  TF_VAR_project_name: ${{ inputs.sandbox_identifier }}
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: terradform-run
+        uses: edfenergy/eit-devops-az-custom-github-actions@terraform_sandbox_control
+        with:
+          folder: ${{ inputs.terraform_folder }}
+          branch_name: ${{ inputs.terraform_branch }}
+          deployment_identifier: ${{ inputs.deployment_identifier }}
+          encryptionkey: ${{ secrets.encryptionkey }}
+          validate: ${{ inputs.validate }}
+          plan: ${{ inputs.plan }}
+          apply: ${{ inputs.apply }}
+          status: ${{ inputs.status }}
+          destroy: ${{ inputs.destroy }}
+          custom_plan_flags: '' 
+          custom_apply_flags: ''

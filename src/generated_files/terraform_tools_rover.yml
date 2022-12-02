@@ -1,0 +1,46 @@
+
+name: 'Manual: rover'
+
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_branch:
+        default: "main"
+        type: string
+      terraform_folder:
+        type: string
+      deployment_identifier:
+        type: string
+        default: 'project_name'
+
+            
+env:
+  ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+  ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+  TF_VAR_project_name: ${{ inputs.deployment_identifier }}
+
+jobs:
+  rover:
+    name: rover
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          wget https://github.com/im2nguyen/rover/releases/download/v0.3.3/rover_0.3.3_linux_amd64.zip
+          unzip rover_0.3.3_linux_amd64.zip
+          mv ./rover_v0.3.3 /usr/local/bin/rover
+        shell: bash
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - run: |
+          cd terraform
+          rover --standalone
+      - uses: actions/upload-artifact@v3
+        with:
+          name: rover.zip
+          path: terraform/rover.zip
+      - run: |
+          echo "## Rover - Terraform Visualizer" >> $GITHUB_STEP_SUMMARY
+          echo " ![img](https://github.com/im2nguyen/rover/raw/main/docs/rover-cropped-screenshot.png) " >> $GITHUB_STEP_SUMMARY
+        shell: sh
