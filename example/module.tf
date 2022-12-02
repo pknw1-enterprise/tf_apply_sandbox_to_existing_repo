@@ -5,7 +5,7 @@ provider "github" {
 variable "github_token" {}
 
 module "sandbox" {
-  source = "../src"
+  source = "git@github.com:pknw1-enterprise/tf_apply_sandbox_to_existing_repo//src"
 
   github_org                    = "edfenergy"
   target_repository_full_name   = "pknw1/tf_target"
